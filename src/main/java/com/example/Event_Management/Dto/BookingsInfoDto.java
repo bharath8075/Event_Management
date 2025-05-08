@@ -1,15 +1,27 @@
 package com.example.Event_Management.Dto;
 
-public class BookingsInfoDto {
-    private String username;
-    private String eventname;
+import java.util.List;
 
-    public BookingsInfoDto(String username, String eventname) {
+public class BookingsInfoDto {
+    private long userId;
+    private String username;
+    private List<String> eventname;
+
+    public BookingsInfoDto(long userId, String username, List<String> eventname) {
+        this.userId = userId;
         this.username = username;
         this.eventname = eventname;
     }
 
     public BookingsInfoDto() {
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -20,11 +32,11 @@ public class BookingsInfoDto {
         this.username = username;
     }
 
-    public String getEventname() {
+    public List<String> getEventname() {
         return eventname;
     }
 
-    public void setEventname(String eventname) {
+    public void setEventname(List<String> eventname) {
         this.eventname = eventname;
     }
 }

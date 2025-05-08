@@ -31,7 +31,7 @@ public class EventController {
     @GetMapping("/show-book-result/{userId}")
     public ResponseEntity<?> showBookings(@PathVariable long userId){
         try{
-            List<BookingsInfoDto> userBookings = bookService.showBookings(userId);
+            BookingsInfoDto userBookings = bookService.showBookings(userId);
             return ResponseEntity.ok(userBookings);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

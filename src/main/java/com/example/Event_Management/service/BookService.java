@@ -53,22 +53,39 @@ public class BookService {
         return "Event booked successfully";
     }
 
-    public List<BookingsInfoDto> showBookings(long userId) {
+    public BookingsInfoDto showBookings(long userId) {
         Optional<User> optUser = userRepo.findById(userId);
         if(optUser.isEmpty()){
             throw new RuntimeException("User Not found");
         }
 
-        List<Bookings> usersAllBookings = bookingsRepo.findByUserId(userId);
-        List<BookingsInfoDto> userBookings = new ArrayList<>();
-        for( Bookings bookings : usersAllBookings){
-            BookingsInfoDto userBooks = new BookingsInfoDto();
-            userBooks.setUsername(bookings.getUser().getName());
-            Optional<Event> optEvent = eventRepo.findById(bookings.getEventId());
-            userBooks.setEventname(optEvent.get().getName());
+//        List<Bookings> usersAllBookings = bookingsRepo.findByUserId(userId);
+//        List<BookingsInfoDto> userBookings = new ArrayList<>();
+//        for( Bookings bookings : usersAllBookings){
+//            BookingsInfoDto userBooks = new BookingsInfoDto();
+//            userBooks.setUsername(bookings.getUser().getName());
+//            Optional<Event> optEvent = eventRepo.findById(bookings.getEventId());
+//            userBooks.setEventname(optEvent.get().getName());
+//
+//            userBookings.add(userBooks);
+//        }
+//        return userBookings;
 
-            userBookings.add(userBooks);
+        List<Bookings> usersAllBookings = bookingsRepo.findByUserId(userId);
+        List<String> eventNames = new ArrayList<>();
+
+        for(Bookings books : usersAllBookings){
+            Optional<Event> optEvent = eventRepo.findById(books.getEventId());
+            if(optEvent.isPresent()){
+            eventNames.add(optEvent.get().getName());
+            } else {
+                eventNames.add("Unknown Event");
+            }
         }
-        return userBookings;
+        BookingsInfoDto userBookingsInfo = new BookingsInfoDto(
+                optUser.get().getId(),
+                optUser.get().getName(),
+                 eventNames);
+        return userBookingsInfo;
     }
 }
